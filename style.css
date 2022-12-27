@@ -11,6 +11,10 @@ body {
   padding: 3rem 4rem;
 }
 
+.hidden{
+  display: none !important;
+}
+
 /* MAIN LAYOUT*/
 
 .container {
