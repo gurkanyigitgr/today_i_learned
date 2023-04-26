@@ -5,6 +5,46 @@ const factsList = document.querySelector(".facts-list");
 
 factsList.innerHTML = "";
 
+// Load data from Supabase
+loadFacts();
+async function loadFacts() {
+  const res = await fetch(
+    "https://zduqsjkbseuphozrmljq.supabase.co/rest/v1/facts",
+    {
+      headers: {
+        apikey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkdXFzamtic2V1cGhvenJtbGpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzE4MzkyNTAsImV4cCI6MTk4NzQxNTI1MH0.CVQoGkAAz_mH3mxIqWi7BK5nzIQfid_z9xRAPkndRJw",
+        authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkdXFzamtic2V1cGhvenJtbGpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzE4MzkyNTAsImV4cCI6MTk4NzQxNTI1MH0.CVQoGkAAz_mH3mxIqWi7BK5nzIQfid_z9xRAPkndRJw",
+      },
+    }
+  );
+
+  const data = await res.json();
+
+  createFactsList(data);
+}
+
+function createFactsList(dataArray) {
+  const htmlArr = dataArray.map(
+    (fact) => `
+  <li class="fact">
+              <p>
+                ${fact.text}
+                <a
+                  class="source"
+                  href="${fact.source}"
+                  target="_blank"
+                  >(Source)</a>
+              </p>
+              <span class="tag" style="color: #3b82f6">${fact.category}</span>
+  `
+  );
+
+  const html = htmlArr.join("");
+  factsList.insertAdjacentHTML("afterbegin", html);
+}
+
 btn.addEventListener("click", function () {
   if (form.classList.contains("hidden")) {
     form.classList.remove("hidden");
